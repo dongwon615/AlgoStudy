@@ -1,0 +1,42 @@
+//백준 1592번 문제 영식이와 친구들
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class B1592 {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+		int l = Integer.parseInt(st.nextToken());
+
+		int[] getball = new int[n + 1];
+
+		int turn = 0;
+		int ball = 1;
+
+		while (true) {
+			getball[ball]++;
+
+			if (getball[ball] == m) {
+				break;
+			}
+			turn++;
+
+			if (getball[ball] % 2 == 0) {
+				ball -= l;
+				if (ball <= 0) {
+					ball += n;
+				}
+			} else {
+				ball += l;
+				if (ball > n) {
+					ball %= n;
+				}
+			}
+		}
+		System.out.println(turn);
+
+	}
+}
