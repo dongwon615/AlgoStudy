@@ -1,0 +1,52 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+
+//백준 2798번 문제 블랙잭
+/*
+ * n개의 카드를 정렬해두고
+ * 위에 3장부터 완탐식으로 확인해봄.
+ * 합이 m이면 바로 출력하고 끝내고
+ * m보다작으면 저장하고 두번째숫자 변경.
+ */
+public class B2798 {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		st = new StringTokenizer(br.readLine(), " ");
+		int n = Integer.parseInt(st.nextToken());
+		int m = Integer.parseInt(st.nextToken());
+
+		st = new StringTokenizer(br.readLine(), " ");
+		Integer[] narr = new Integer[n];
+		for (int i = 0; i < n; i++) {
+			narr[i] = Integer.parseInt(st.nextToken());
+		}
+		Arrays.parallelSort(narr, Collections.reverseOrder());
+
+		int crnt = 0;
+		int top = 0;
+
+		out: for (int i = 0; i < n - 2; i++) {
+			for (int j = i + 1; j < n - 1; j++) {
+				for (int k = j + 1; k < n; k++) {
+					crnt = narr[i] + narr[j] + narr[k];
+					if (crnt == m) {
+						top = crnt;
+						break out;
+					}
+					if (crnt < m) {
+						if (top < crnt) {
+							top = crnt;
+							break;
+						}
+					}
+				}
+			}
+		}
+		System.out.println(top);
+	}
+}
