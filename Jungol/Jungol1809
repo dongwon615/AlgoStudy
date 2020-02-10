@@ -1,0 +1,39 @@
+import java.util.Scanner;
+import java.util.Stack;
+ 
+public class Main{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+ 
+        int n = sc.nextInt();
+        sc.nextLine();
+ 
+        String[] input = sc.nextLine().split(" ");
+ 
+        Stack<Integer> stk = new Stack<Integer>();
+        Stack<Integer> sidx = new Stack<Integer>();
+ 
+        int[] result = new int[n];
+ 
+        int crnt;
+        for (int i = n - 1; i >= 0; i--) {
+            crnt = Integer.parseInt(input[i]);
+            while (!stk.isEmpty()) {
+                if (stk.peek() < crnt) {
+                    stk.pop();
+                    result[sidx.pop()] = i + 1;
+                } else {
+                    break;
+                }
+            }
+            stk.push(crnt);
+            sidx.push(i);
+        }
+ 
+        for (int i : result) {
+            System.out.print(i + " ");
+        }
+ 
+    }
+ 
+}
