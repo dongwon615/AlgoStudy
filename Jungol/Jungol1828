@@ -1,0 +1,63 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.StringTokenizer;
+ 
+public class Main {
+    static class Data{
+        int s;
+        int e;
+        public Data(int s, int e) {
+            this.s = s;
+            this.e = e;
+        }
+    }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+         
+        int n;
+        List<Data> list = new ArrayList<>();
+ 
+        n = Integer.parseInt(br.readLine());
+         
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            list.add(new Data(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken())));          
+        }
+        Collections.sort(list, new Comparator<Data>() {
+ 
+            @Override
+            public int compare(Data o1, Data o2) {
+                // TODO Auto-generated method stub
+                if(o1.s < o2.s) return -1;
+                return 1;
+            }
+        });
+ 
+        int rst = 0;
+        int mine = -280;
+        boolean startcheck = true;
+        for (Data d : list) {
+            if(startcheck) {
+                rst = 1;
+                mine = d.e;
+                startcheck = false;
+                continue;
+            }
+            if (d.s > mine) {
+                rst++;
+                mine = d.e;
+                continue;
+            }
+            if(d.e < mine) {
+                mine = d.e;
+            }
+        }
+        System.out.println(rst);
+ 
+    }
+}
