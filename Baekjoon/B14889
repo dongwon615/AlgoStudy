@@ -1,0 +1,70 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class B14889 {
+	static int n;
+	static int[][] stat;
+	static int[] team1;
+	static int[] team2;
+	static boolean select[];
+	static int rst = Integer.MAX_VALUE;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		n = Integer.parseInt(br.readLine());
+		stat = new int[n][n];
+		for(int i = 0; i < n; i++) {
+			st = new StringTokenizer(br.readLine(), " ");	
+			for(int j = 0; j < n; j++) {
+				stat[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		team1 = new int[n/2];
+		team2 = new int[n/2];
+		select = new boolean[n];
+		comb(0,0);
+		System.out.println(rst);
+	}
+	private static void comb(int s, int cnt) {
+		if(cnt == n/2) {
+			createTeam2();
+			compstat();
+			
+			return;
+		}
+		for(int i = s; i < n; i ++) {
+			team1[cnt] = i;
+			select[i] = true;
+			comb(i+1,cnt+1);
+			select[i] = false;
+		}
+		
+	}
+	
+	private static void compstat() {
+		int team1sum = 0;
+		int team2sum = 0;
+		for(int i = 0; i < n/2; i++) {
+			for(int j = 0; j < n/2; j++) {
+				if(i!=j) {
+					 team1sum += stat[team1[i]][team1[j]];					
+					 team2sum += stat[team2[i]][team2[j]];					
+				}
+			}
+		}
+		if(rst > Math.abs(team1sum-team2sum)) {
+			rst = Math.abs(team1sum-team2sum);
+		}
+	}
+	private static void createTeam2() {
+		int cnt = 0;
+		for(int i = 0; i < n; i++) {
+			if(!select[i]) {
+				team2[cnt++] = i;
+			}
+		}
+		
+	}
+}
