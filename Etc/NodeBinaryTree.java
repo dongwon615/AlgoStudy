@@ -1,5 +1,5 @@
 
-public class A {
+public class NodeBinaryTree {
 	public static void main(String[] args) throws Exception {
 		BinaryTree tree = new BinaryTree();
 		tree.setRoot('A');
