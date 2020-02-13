@@ -1,0 +1,37 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class B15651 {
+	static int n;
+	static int m;
+	static int[] rst;
+	static StringBuffer sb;
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st;
+		st = new StringTokenizer(br.readLine());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		rst = new int[n];
+		sb = new StringBuffer();
+		nm3(0);
+		System.out.println(sb);
+	}
+	private static void nm3(int cnt) {
+		if(cnt == m) {
+			printRSt();
+			return;
+		}
+		for(int i = 1; i <= n; i ++) {
+			rst[cnt] = i;
+			nm3(cnt+1);
+		}
+	}
+	private static void printRSt() {
+		for(int i = 0; i < m; i++) {
+			sb.append(rst[i] + " ");
+		}
+		sb.append("\n");
+	}
+}
