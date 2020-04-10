@@ -2,6 +2,7 @@
 반복적인 문자들이 많이 나올때 문자열을 비교하면, S에 P를 비교한다하면 매번 P번에 가까운 숫자만큼 검색이 되어야함,,
 따라서 P의 비교횟수를 줄이기 위해 Pi를 만들어서 비교문자열의 위치를 제일처음이아니라 반복된 곳을 확인하는 것임.
 인터넷 찾아보면 금방 알것.. 바로밑에는 내가 구현한 코드 / 다음 코드는 받은거,,
+추가문제 - 몇개의 문자열이 포함되어있는지, 위치까지 나온 코드( j를 pi[j]로 바꾸는것 신경쓰기)
 
 ``` java
 import java.io.BufferedReader;
@@ -122,4 +123,58 @@ public class KMP {
 	}
 
 }
+```
+
+``` java
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class B16916 {
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		char[] s = br.readLine().toCharArray();
+		char[] p = br.readLine().toCharArray();
+		// kmp 알고리즘 .. 우선 실패함수 구하기
+		int[] pi = getPi(p);
+		int cnt = 0;
+		StringBuilder sb = new StringBuilder();
+		int j = 0;
+		for(int i = 0; i < s.length; i++) {
+			while(j > 0 && p[j] != s[i]) {
+				j = pi[j-1];
+			}
+			if(p[j] == s[i]) {
+				if(j == p.length-1) {
+					cnt++;
+					sb.append(i - j + 1 + " ");
+					j = pi[j];
+					continue;
+				}
+				j++;					
+			}
+		}
+		System.out.println(cnt);
+		System.out.println(sb);
+	}
+
+	private static int[] getPi(char[] p) {
+		int[] pi = new int[p.length];
+		int j = 0;
+		for (int i = 1; i < p.length; i++) {
+			// pattern 내에서 i와 j가 가리키는 값이 다를때
+			// while문안에 넣는 이유는 중간단계를 건너뛰고 최대한으로 점프하려고
+			while (j > 0 && p[j] != p[i]) {
+				// j의 값을 한칸 뺀곳의 값으로 j를 바꿈
+				j = pi[j - 1];
+			}
+			// pattern 내에서 i와 j가 가리키는 값이 같으면
+			if (p[j] == p[i]) {
+				// i번째의 최대길이는 ++j한 값
+				pi[i] = ++j;
+			}
+		}
+		return pi;
+	}
+}
+
 ```
